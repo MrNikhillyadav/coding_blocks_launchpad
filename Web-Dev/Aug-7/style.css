@@ -1,0 +1,46 @@
+
+body {
+    background-color: #f5f7fa;
+    font-family: Arial, sans-serif;
+    padding: 25px;
+}
+
+h2 {
+    color: #2457a7;
+}
+
+table {
+    border-collapse: collapse;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #888;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #e2ebf8;
+}
+
+div {
+    margin-bottom: 22px;
+    padding: 12px;
+    border: 1px dashed #8ac;
+    background-color: #faffeb;
+}
+
+.blue-text {
+    color: #1376c3;
+    font-size: 1.1em;
+}
+
+form {
+    background: #fff;
+    padding: 18px 20px;
+    border: 1px solid #bbb;
+    width: 320px;
+    border-radius: 7px;
+}
