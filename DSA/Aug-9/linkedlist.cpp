@@ -1,85 +1,91 @@
+/*
+ * Title: Linked List Implementation Demo
+ * Description: Singly linked list using ListNode class, including
+ *              insertAtHead, insertAtTail, and printLinkedList functions.
+ * Author: Nikhil Yadav 
+ * Date: August 9th, 2025
+ */
+
 #include <iostream>
 using namespace std;
 
+// Definition for singly-linked list node
 class ListNode {
-    public :
+public:
+    int data;
+    ListNode* next;
 
-        int data;
-        ListNode* next;
-
-        ListNode( int data){
-            this->data = data;
-            this-> next = NULL;
-        }
+    // Constructor
+    ListNode(int val) : data(val), next(nullptr) {}
 };
 
-
-// printing the whole linked list
-void printLinkedList(ListNode* head){
-   ListNode* temp = head;
-
-   while( temp != NULL ){
-        cout << temp -> data << " "; 
-        temp = temp -> next;
-   }
-   cout << " "<< endl;
+// Insert a new node at the head of the list
+void insertAtHead(ListNode*& head, int value) {
+    ListNode* newNode = new ListNode(value);
+    newNode->next = head;
+    head = newNode;
 }
 
-void insertAtHead( ListNode*& head, int data){
-    ListNode* n  = new ListNode(data);
-    n -> next = head;
-    head = n;
-}
-
-ListNode* getTailNode( ListNode* head){
-    ListNode* temp = head;
-
-    while(temp -> next != NULL){
-        temp = temp -> next;
-    }
-
-    return temp;
-
-}
-
-void insertAtTail(ListNode* head, int data){
-    if(head == NULL){
+// Insert a new node at the tail (end) of the list
+void insertAtTail(ListNode*& head, int value) {
+    ListNode* newNode = new ListNode(value);
+    if (head == nullptr) {
+        head = newNode;
         return;
     }
-    
-   ListNode* n = new ListNode(data);
-
-   ListNode* tail = getTailNode(head);
-   tail -> next = n;
-
+    ListNode* temp = head;
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
 }
 
-int main(){
-    // create a linked list : 10 -> 20 -> 30;
-        ListNode* head = new ListNode(10);
-        head -> next =  new ListNode(20);
-        head -> next -> next = new ListNode(30);
-        printLinkedList(head);
+// Print all nodes in the linked list
+void printLinkedList(ListNode* head) {
+    ListNode* temp = head;
+    cout << "Linked List: ";
+    while (temp != nullptr) {
+        cout << temp->data << " -> ";
+        temp = temp->next;
+    }
+    cout << "NULL" << endl;
+}
 
-    // insert 0 at head : 0 -> 10 -> 20 -> 30 
-        insertAtHead(head,0);
-        printLinkedList(head);
+int main() {
+    ListNode* head = nullptr; // start with an empty list
 
+    // Insert nodes at head
+    insertAtHead(head, 3);
+    insertAtHead(head, 2);
+    insertAtHead(head, 1); // List: 1 -> 2 -> 3
 
-    // insert 40 at tail : 0 -> 10 -> 20 -> 30 -> 40
-        insertAtTail(head,40);
-        printLinkedList(head);
+    // Print current list
+    printLinkedList(head);
 
+    // Insert nodes at tail
+    insertAtTail(head, 4);
+    insertAtTail(head, 5); // List: 1 -> 2 -> 3 -> 4 -> 5
 
-    // insert 25 at index 3 : 0 -> 10 -> 20 -> 25 -> 30 -> 40
+    // Print again
+    printLinkedList(head);
 
-
-
-    // delete the node at head : 10 -> 20 -> 25 -> 30 -> 40
-
-
-
-    // delete the node at tail : 10 -> 20 -> 25 -> 30 
+    // Free the allocated memory (optional, for clean code)
+    while (head != nullptr) {
+        ListNode* temp = head;
+        head = head->next;
+        delete temp;
+    }
 
     return 0;
 }
+
+/*
+ * =========================
+ *        EXPLANATION
+ * =========================
+ * - ListNode class: each node holds integer data and a pointer to next node
+ * - insertAtHead: add new node at the front (constant time)
+ * - insertAtTail: add new node at end (linear time)
+ * - printLinkedList: displays all nodes from head to tail
+ * - main(): shows both insertions and prints list after each major update
+ */
