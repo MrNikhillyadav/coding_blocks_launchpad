@@ -1,0 +1,23 @@
+
+.container {
+    background-color:blue;
+    height: 100%;
+    gap: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.box {
+    background-color: rgba(147, 146, 146, 0.612);
+    color : white;
+    padding: 50px;
+    border-radius: 20px;
+}
+
+.box h6 {
+    font-size: 30px;
+
+}
