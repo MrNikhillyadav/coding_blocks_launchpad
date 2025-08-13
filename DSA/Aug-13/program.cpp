@@ -27,37 +27,81 @@ void printLinkedList(ListNode* head) {
     cout << "NULL" << endl;
 }
 
-ListNode* getPrevNode(ListNode* head, int i){
+void deleteAtHead(ListNode*& head){
+
+    if(head == NULL){
+        return;
+    }
     ListNode* temp = head;
-    int k = 0;
-    while( k < i){
-        temp = temp -> next;
-        k++;
+    head = head->next;
+    delete temp;
+
+}
+
+void deleteAtTail(ListNode* head){
+    if(head == NULL){
+        return ;
     }
 
-    return temp;
+    if(head -> next == NULL){
+        deleteAtHead(head);
+    }
+
+    ListNode* prev = NULL;
+    ListNode* tail = head;
+
+    while( tail -> next != NULL){
+        prev = tail;
+        tail = tail -> next;
+    }
+
+    prev -> next = NULL;
+    delete tail;
+}
+
+int ComputeLengthIteratively(ListNode* head){
+    int i = 0;
+    ListNode* temp = head;
+
+    while( temp != NULL){
+        temp = temp -> next;
+        i++;
+    }
+
+    return i;
+}
+
+int computeLengthRecursively(ListNode* head){
+    // base case
+    if(head == NULL){
+        return 0;
+    }
+
+    //recursive case
+    int A =  computeLengthRecursively(head -> next);
+    return A + 1;
 }
 
 
 int main(){
     ListNode* head = nullptr;
 
+    insertAtHead(head, 50);
     insertAtHead(head, 40);
     insertAtHead(head, 30);
     insertAtHead(head, 20);
     insertAtHead(head, 10);
     printLinkedList(head);
-
-    // delete head
-    
-
-    // delete at tail
-
-
-    // searchRecusive
+   
+    //length of a linkedlist
+    cout << "length: " <<  ComputeLengthIteratively(head) << endl;
+    cout << "length: " <<  computeLengthRecursively(head) << endl;
 
 
-    //reverseLinkedlist
+    // searchRecusive 
+
+
+    //reverseLinkedlistRecursive
 
 
     // kth node from the end
