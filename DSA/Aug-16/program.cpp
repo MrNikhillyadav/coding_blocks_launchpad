@@ -1,16 +1,30 @@
+/*
+ * Title: C++ Singly Linked List Operations
+ * Description: Implementation of basic singly linked list operations in C++,
+ *              including insertion, traversal, searching (iterative + recursive),
+ *              reversing (recursive), finding kth node from end, finding middle,
+ *              and deleting middle node.
+ * Author: Nikhil Yadav
+ * Date: August 16, 2025
+ */
+
 #include <iostream>
 using namespace std;
 
+// ===== NODE DEFINITION =====
 class ListNode {
-    public :
-        int data;
-        ListNode* next;
+    public:
+        int data;          // Stores the node's integer value
+        ListNode* next;    // Pointer to the next node
 
-        ListNode(int data){
+        // Constructor
+        ListNode(int data) {
             this->data = data;
-            this -> next = NULL;
+            this->next = nullptr;
         }
 };
+
+// ===== INSERTION =====
 
 void insertAtHead(ListNode*& head, int value) {
     ListNode* newNode = new ListNode(value);
@@ -18,8 +32,10 @@ void insertAtHead(ListNode*& head, int value) {
     head = newNode;
 }
 
+// ===== TRAVERSAL =====
+
 void printLinkedList(ListNode* head) {
-    ListNode* temp = head; 
+    ListNode* temp = head;
     while (temp != nullptr) {
         cout << temp->data << " -> ";
         temp = temp->next;
@@ -27,151 +43,193 @@ void printLinkedList(ListNode* head) {
     cout << "NULL" << endl;
 }
 
-bool searchIterative(ListNode* head, int target){
+// ===== SEARCHING (Iterative) =====
+
+bool searchIterative(ListNode* head, int target) {
     ListNode* temp = head;
 
-    while(temp != NULL){
-        if( temp->data == target){
+    while (temp != nullptr) {
+        if (temp->data == target) {
             return true;
         }
-
-        temp = temp -> next;
+        temp = temp->next;
     }
-
     return false;
 }
 
-bool searchRecursive(ListNode* head, int target){
-    //base case
-    if(head == NULL){
-        return false;
-    }
+// ===== SEARCHING (Recursive) =====
 
-    if( head -> data == target){
-        return true;
-    }
+bool searchRecursive(ListNode* head, int target) {
+    // Base case: empty list
+    if (head == nullptr) return false;
 
-    // recursive case
-    return searchRecursive(head ->next, target);
+    if (head->data == target) return true;
+
+    // Recursive case: move to next node
+    return searchRecursive(head->next, target);
 }
 
-ListNode* reverseRecursive(ListNode* head){
-    //base case
-    if(head == NULL){
+// ===== REVERSING A LINKED LIST =====
+
+ListNode* reverseRecursive(ListNode* head) {
+    // Base case: empty list OR single node
+    if (head == nullptr || head->next == nullptr) {
         return head;
     }
 
-    if( head-> next == NULL){
-        return head;
-    }
+    // Recursive case
+    ListNode* revHead = reverseRecursive(head->next);
 
-    // recursive case
-    ListNode* revHead =  reverseRecursive(head -> next);
-    head->next -> next = head;
-    head -> next = NULL;
+    // Reverse the current pointer
+    head->next->next = head;
+    head->next = nullptr;
 
     return revHead;
 }
 
-ListNode* kthNodeFromEnd(ListNode* head, int k){
+// ===== KTH NODE FROM END =====
+/**
+ * Finds the kth node from the end of the linked list.
+ * Uses two-pointer technique (fast and slow).
+ */
+ListNode* kthNodeFromEnd(ListNode* head, int k) {
     ListNode* slow = head;
     ListNode* fast = head;
 
-    int i = 1;
-    while( i <= k){
-        fast = fast -> next;
-        i++;
+    // Move fast pointer k steps ahead
+    for (int i = 0; i < k; i++) {
+        if (fast == nullptr) return nullptr; // Handle case where k > length of list
+        fast = fast->next;
     }
 
-    while( fast != NULL){
-        slow = slow -> next;
-        fast = fast -> next;
+    // Move both pointers until fast reaches end
+    while (fast != nullptr) {
+        slow = slow->next;
+        fast = fast->next;
     }
 
     return slow;
 }
 
-ListNode* middleOfList(ListNode* head){
+// ===== MIDDLE OF LINKED LIST =====
+/**
+ * Finds the middle node of the linked list.
+ * Uses fast and slow pointer technique.
+ */
+ListNode* middleOfList(ListNode* head) {
     ListNode* slow = head;
     ListNode* fast = head;
 
-    while( fast != NULL && fast -> next != NULL){
-        slow = slow -> next;
-        fast = fast -> next -> next;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
     }
-
     return slow;
 }
 
-ListNode* deleteMiddleOfList(ListNode* head){
-    if( head == NULL){
-        return head;
+// ===== DELETE MIDDLE NODE =====
+/**
+ * Deletes the middle node of the linked list.
+ * Returns new head (unchanged unless list has 1 node).
+ */
+ListNode* deleteMiddleOfList(ListNode* head) {
+    if (head == nullptr || head->next == nullptr) {
+        return nullptr; // Empty list or single node list
     }
 
     ListNode* slow = head;
     ListNode* fast = head;
     ListNode* prev = nullptr;
 
-    while( fast != NULL && fast ->next != NULL){
+    while (fast != nullptr && fast->next != nullptr) {
         prev = slow;
-        slow = slow -> next;
-        fast = fast -> next ->next;
+        slow = slow->next;
+        fast = fast->next->next;
     }
 
-    prev ->next = slow ->next;
+    // Remove middle node
+    if (prev != nullptr) {
+        prev->next = slow->next;
+    }
     return head;
 }
 
-int main(){
+// ===== MAIN DRIVER =====
+int main() {
     ListNode* head = nullptr;
 
+    // Insert elements: 10 -> 20 -> 30 -> 40 -> 50
     insertAtHead(head, 50);
     insertAtHead(head, 40);
     insertAtHead(head, 30);
     insertAtHead(head, 20);
     insertAtHead(head, 10);
 
+    cout << "Original Linked List:" << endl;
     printLinkedList(head);
 
-    // search element in Linkedlist
+    // === SEARCHING ===
+    int target = 80;
+    // Iterative
+    cout << "\nSearching " << target << " (Iterative): ";
+    cout << (searchIterative(head, target) ? "Found" : "Not Found") << endl;
 
-    //iterative approach :
+    // Recursive
+    cout << "Searching " << target << " (Recursive): ";
+    cout << (searchRecursive(head, target) ? "Found" : "Not Found") << endl;
 
-    // int target = 80;
-    // if(searchIterative(head, target)) {
-    //     cout << target << " has been found" << endl;
-    // }else {
-    //     cout << target << " not found" << endl;
-    // }
+    // === REVERSAL ===
+    cout << "\nReversed Linked List:" << endl;
+    head = reverseRecursive(head);
+    printLinkedList(head);
 
-    // recrusive approach
+    // === KTH NODE FROM END ===
+    int k = 2;
+    ListNode* kth = kthNodeFromEnd(head, k);
+    if (kth) {
+        cout << "\nKth node (" << k << ") from end: " << kth->data << endl;
+    } else {
+        cout << "List has fewer than " << k << " nodes!" << endl;
+    }
 
-    // if(searchRecursive(head, target)){
-    //     cout << target << " value found" << endl;
-    // }else {
-    //     cout << target << " not found in LL" << endl;
-    // }
+    // === MIDDLE NODE ===
+    ListNode* middle = middleOfList(head);
+    if (middle) {
+        cout << "Middle of Linked List: " << middle->data << endl;
+    }
 
-
-    //reverse linked list
-    // head = reverseRecursive(head);
-    // printLinkedList(head);
-
-    // kth node from the end
-    // int k = 2;
-    // ListNode* kth =  kthNodeFromEnd(head,k);
-    // cout << "Kth value from end: "<< kth->data  << endl;
-
-    // find and delete the middle of LL 
-    // ListNode* middle = middleOfList(head);
-    // if( middle){
-    //     cout << "middle of LL: " << middle->data << endl;
-    // }
-
-    // delete the middle of list
+    // === DELETE MIDDLE ===
+    cout << "\nList after deleting middle node:" << endl;
     head = deleteMiddleOfList(head);
     printLinkedList(head);
 
-
     return 0;
 }
+
+/*
+ * =====
+ *        EXPLANATION
+ * =====
+ * 1. Insertion at Head:
+ *      new node points to current head, then update head to new node.
+ *
+ * 2. Traversal:
+ *      loop until nullptr, print each node.
+ *
+ * 3. Searching:
+ *      Iterative: linear scan until found.
+ *      Recursive: check node, else recurse to next.
+ *
+ * 4. Reverse (Recursive):
+ *      Reverse remainder of list, then set head->next->next = head, cut head->next.
+ *
+ * 5. Kth Node from End:
+ *      Move fast pointer k steps, then move slow and fast until fast=nullptr.
+ *
+ * 6. Middle of List:
+ *      Fast moves 2 steps, slow moves 1 step. When fast reaches end, slow is middle.
+ *
+ * 7. Delete Middle:
+ *      Track prev of slow while finding middle, then bypass middle node.
+ *
+ */

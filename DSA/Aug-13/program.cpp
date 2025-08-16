@@ -1,16 +1,32 @@
+/*
+ * Title: C++ Singly Linked List - Basic Deletion and Length Operations
+ * Description: Implementation of linked list operations in C++, including:
+ *              - Insertion at head
+ *              - Printing/traversal
+ *              - Deletion at head
+ *              - Deletion at tail
+ *              - Computing length (iteratively & recursively)
+ * Author: Nikhil Yadav
+ * Date: August 13, 2025
+ */
+
 #include <iostream>
 using namespace std;
 
+// ===== NODE DEFINITION =====
 class ListNode {
-    public :
-        int data;
-        ListNode* next;
+    public:
+        int data;          // Stores the node value
+        ListNode* next;    // Pointer to the next node
 
-        ListNode(int data){
+        // Constructor
+        ListNode(int data) {
             this->data = data;
-            this -> next = NULL;
+            this->next = nullptr;
         }
 };
+
+// ===== INSERTION =====
 
 void insertAtHead(ListNode*& head, int value) {
     ListNode* newNode = new ListNode(value);
@@ -18,8 +34,10 @@ void insertAtHead(ListNode*& head, int value) {
     head = newNode;
 }
 
+// ===== PRINT LIST =====
+
 void printLinkedList(ListNode* head) {
-    ListNode* temp = head; 
+    ListNode* temp = head;
     while (temp != nullptr) {
         cout << temp->data << " -> ";
         temp = temp->next;
@@ -27,84 +45,122 @@ void printLinkedList(ListNode* head) {
     cout << "NULL" << endl;
 }
 
-void deleteAtHead(ListNode*& head){
+// ===== DELETE AT HEAD =====
 
-    if(head == NULL){
+void deleteAtHead(ListNode*& head) {
+    if (head == nullptr) {
         return;
     }
-    ListNode* temp = head;
-    head = head->next;
-    delete temp;
 
+    ListNode* temp = head;
+    head = head->next;   // Move head to the second node
+    delete temp;         // Free removed node
 }
 
-void deleteAtTail(ListNode* head){
-    if(head == NULL){
-        return ;
+// ===== DELETE AT TAIL =====
+
+void deleteAtTail(ListNode*& head) {
+    if (head == nullptr) {
+        return; // Empty list
     }
 
-    if(head -> next == NULL){
+    if (head->next == nullptr) {
+        // Only one element, delete head
         deleteAtHead(head);
+        return;
     }
 
-    ListNode* prev = NULL;
+    ListNode* prev = nullptr;
     ListNode* tail = head;
 
-    while( tail -> next != NULL){
+    // Traverse to the last node
+    while (tail->next != nullptr) {
         prev = tail;
-        tail = tail -> next;
+        tail = tail->next;
     }
 
-    prev -> next = NULL;
-    delete tail;
+    prev->next = nullptr;  // Unlink last node
+    delete tail;           // Delete last node
 }
 
-int ComputeLengthIteratively(ListNode* head){
-    int i = 0;
+// ===== LENGTH (Iterative) =====
+
+int computeLengthIteratively(ListNode* head) {
+    int length = 0;
     ListNode* temp = head;
 
-    while( temp != NULL){
-        temp = temp -> next;
-        i++;
+    while (temp != nullptr) {
+        temp = temp->next;
+        length++;
     }
-
-    return i;
+    return length;
 }
 
-int computeLengthRecursively(ListNode* head){
-    // base case
-    if(head == NULL){
+// ===== LENGTH (Recursive) =====
+
+int computeLengthRecursively(ListNode* head) {
+    // Base case: end of list
+    if (head == nullptr) {
         return 0;
     }
 
-    //recursive case
-    int A =  computeLengthRecursively(head -> next);
-    return A + 1;
+    // Recursive case: 1 + length of remaining list
+    return 1 + computeLengthRecursively(head->next);
 }
 
-int main(){
+// ===== MAIN DRIVER =====
+int main() {
     ListNode* head = nullptr;
 
+    // Insert elements: 10 -> 20 -> 30 -> 40 -> 50
     insertAtHead(head, 50);
     insertAtHead(head, 40);
     insertAtHead(head, 30);
     insertAtHead(head, 20);
     insertAtHead(head, 10);
+
+    cout << "Original Linked List:" << endl;
     printLinkedList(head);
-   
-    //length of a linkedlist
-    cout << "length: " <<  ComputeLengthIteratively(head) << endl;
-    cout << "length: " <<  computeLengthRecursively(head) << endl;
 
+    // === LENGTH ===
+    cout << "\nLength (Iterative): " << computeLengthIteratively(head) << endl;
+    cout << "Length (Recursive): "  << computeLengthRecursively(head) << endl;
 
-    // searchRecusive 
+    // === DELETION ===
+    cout << "\nDeleting at Head:" << endl;
+    deleteAtHead(head);
+    printLinkedList(head);
 
-
-    //reverseLinkedlistRecursive
-
-
-    // kth node from the end
-
+    cout << "\nDeleting at Tail:" << endl;
+    deleteAtTail(head);
+    printLinkedList(head);
 
     return 0;
 }
+
+/*
+ * =====
+ *        EXPLANATION
+ * =====
+ * 1. Insertion at Head:
+ *      - New node points to current head.
+ *      - Update head = newNode.
+ *
+ * 2. Traversal:
+ *      - Use temp pointer, move until nullptr, and print data.
+ *
+ * 3. Delete at Head:
+ *      - Save current head in temp.
+ *      - Move head to head->next.
+ *      - Delete temp node.
+ *
+ * 4. Delete at Tail:
+ *      - If empty list: do nothing.
+ *      - If single node: just delete head.
+ *      - Else traverse to last node, track prev,
+ *        then unlink last node and delete it.
+ *
+ * 5. Length:
+ *      Iterative: Traverse and count using loop.
+ *      Recursive: Base (nullptr=0), else 1 + recurse(next).
+ */
