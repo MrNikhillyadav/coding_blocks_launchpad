@@ -1,0 +1,17 @@
+.info-card{
+    padding: 50px;
+    border: 1px solid blueviolet;
+}
+
+#card1{
+    background-color: lightblue;
+}
+
+#card2{
+    background-color: lightyellow;
+}
+
+.action-btn{
+    background-color: green;
+    color: white;
+}

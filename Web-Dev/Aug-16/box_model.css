@@ -1,0 +1,13 @@
+.class_box{
+    width: 150px;
+    height: 70px;
+    background-color: chocolate;
+    border: 2px solid yellow;
+    margin: 18px;
+    padding: 20px;
+    text-align: center;
+}
+
+#box2{
+    border: 2px dashed black;
+}
