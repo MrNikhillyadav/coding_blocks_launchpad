@@ -82,7 +82,6 @@ int computeLengthRecursively(ListNode* head){
     return A + 1;
 }
 
-
 int main(){
     ListNode* head = nullptr;
 
