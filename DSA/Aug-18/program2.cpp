@@ -22,11 +22,13 @@ void printLinkedList(ListNode* head) {
 }
 
 
+//check if cycle is present
 bool hasCycle(ListNode* head){
 
 
 }
 
+//remove the loop cycle
 void removeCycle(ListNode* head){
   
 }
