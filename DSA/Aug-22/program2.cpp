@@ -26,10 +26,8 @@ TreeNode* buildTree(){
     return root;
 }
 
-// Print tree (Preorder for demonstartion)
 void printTree(TreeNode* root){
    if(root == NULL) return;
-
    cout << root -> data << " ";
    printTree(root->left);
    printTree(root->right);
