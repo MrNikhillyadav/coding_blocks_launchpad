@@ -13,6 +13,7 @@ public:
     }
 };
 
+//building input based tree
 TreeNode* buildTree(){
     int d;
     cin >> d;
@@ -26,11 +27,10 @@ TreeNode* buildTree(){
     return root;
 }
 
+
+//preorder
 void printTree(TreeNode* root){
-   if(root == NULL) return;
-   cout << root -> data << " ";
-   printTree(root->left);
-   printTree(root->right);
+  
 
 }
 
@@ -38,11 +38,25 @@ void printTree(TreeNode* root){
 int main(){
     TreeNode* root = buildTree();
 
-    // e.g. Tree input : 3 4 -1 6 -1 -1 5 1 -1 -1 -1
+    // e.g. printTree input : 3 4 -1 6 -1 -1 5 1 -1 -1 -1
 
-    printTree(root);
+
+    cout << endl;
+
+    // height | Input = 8 10 1 -1 -1 6 9 -1 -1 7 -1 -1 3 -1 14 13 -1 -1 -1 -1 
+
+
+    // print Kth level e.g. k=3
+
+
+    // print All levels
+
+
+    //total no. of nodes
+
+
+    //Diameter of tree
 
     
-
     return 0;
 }
