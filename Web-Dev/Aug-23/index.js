@@ -26,12 +26,12 @@ for (let i = 0; i < arr.length; i++) {
 }
 
 
-type casting
+//type casting
 
 let numStr = "123";
 console.log(typeof(numStr))
 
-string -> number is called typecasting
+//string -> number is called typecasting
 
 let num = Number(numStr);
 console.log(typeof(num))
@@ -58,6 +58,7 @@ showMessage();
 showMessage();
 showMessage();
 showMessage();
+
 
 function greet(name) {
   console.log( name );
