@@ -27,7 +27,6 @@ TreeNode* buildTree(){
     return root;
 }
 
-
 //preorder
 void preOrder(TreeNode* root){
     if(root == NULL){
@@ -70,7 +69,6 @@ void printKthLevel(TreeNode* root, int k){
     return;
 }
 
-
 //print all the levels:
 void printAllLevels(TreeNode* root){
     if(root == NULL) return;
@@ -84,35 +82,49 @@ void printAllLevels(TreeNode* root){
     return;
 }
 
-int main(){
-    TreeNode* root = buildTree();
+// count of nodes
+int count(TreeNode* root){
+	// base case
+    if(root == NULL) return 0;
 
-    // e.g. preOrde input : 3 4 -1 6 -1 -1 5 1 -1 -1 -1
+    return 1 + count(root->left) + count(root->right);
+}
+
+//diameter of Binary Tree
+int diameter(TreeNode* root){
+    //base 
+    if(root == NULL) return 0;
+
+    int h1 = height(root->left);
+    int h2 = height(root->right);
+    int op1 = h1 + h2;
+
+    int op2 = diameter(root->left);
+    int op3 = diameter(root->right);
+
+    return max(op1,max(op2,op3));
+}
+
+//delete a tree
+void deleteTree(TreeNode* root){
+    // base
+    if(root == NULL){
+        return;
+    }
+    // recursive call
+    deleteTree(root -> left);
+    deleteTree(root -> right);
+
+    delete root;
+}
+
+int main(){
+    // Input = 8 10 1 -1 -1 6 9 -1 -1 7 -1 -1 3 -1 14 13 -1 -1 -1 
+    TreeNode* root = buildTree();
     preOrder(root);
     cout << endl;
 
-    // height | Input = 8 10 1 -1 -1 6 9 -1 -1 7 -1 -1 3 -1 14 13 -1 -1 -1 
-    cout<< "height :"<< height(root);
-
-    cout<< endl;
-
-    // print Kth level e.g. k=3
-    int k = 4;
-    cout<< "print kth level: ";
-    printKthLevel(root, k);
-
-    cout << endl;
-
-    // print All levels
-    cout<< "all the levels: "<< endl;
-    printAllLevels(root);
-
-
-    //total no. of nodes
-
-
-    //Diameter of tree
-
-    
+    // delete a tree
+    deleteTree(root);
     return 0;
 }
