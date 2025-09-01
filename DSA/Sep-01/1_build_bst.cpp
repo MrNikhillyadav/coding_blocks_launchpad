@@ -65,11 +65,24 @@ void printInorder(TreeNode* root){
 
 
 
-TreeNode* buildBalancedBST(int A[],int start, int end){
-   
+TreeNode* buildBalancedBST(int A[],int s, int e){
+   //base case
+    if(s > e){
+        return NULL;
+    }
 
+   //recursive call 
+   // mid index
+    int m = s + (e -s)/2;
 
-    
+    // creating the root node
+    TreeNode* root = new TreeNode(A[m]);
+
+    //recursive call to left and right subtree;
+    root->left = buildBalancedBST(A, s, m-1);
+    root ->right = buildBalancedBST(A, m + 1, e);
+
+    return root;  
 }
 
 int main(){
