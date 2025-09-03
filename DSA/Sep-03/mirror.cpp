@@ -45,12 +45,20 @@ void printAllLevels(TreeNode* root){
 }
 
 
-
-
 void mirrorTree(TreeNode* root) {
+    // base case
+    if(root == NULL){
+        return;
+    }
 
+    //swap subtree
+    TreeNode* temp = root ->left;
+    root->left = root->right;
+    root->right = temp;
 
-
+    // recursive case
+    mirrorTree(root->left);
+    mirrorTree(root->right);
     
 }
 

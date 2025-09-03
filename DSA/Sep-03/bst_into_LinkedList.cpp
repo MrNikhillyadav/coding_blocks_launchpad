@@ -30,9 +30,35 @@ class Pair {
 };
 
 Pair convert (TreeNode* root) {
-   
+   Pair p;
 
+   // base case
+   if(root == NULL){
+        p.head = NULL;
+        p.tail = NULL;
+        return p;
+   }
 
+   // recursive case
+   Pair left = convert(root->left);
+
+    if(left.head == NULL){
+        p.head = root;
+    }else{
+        left.tail->right = root;
+        p.head = left.head;
+    }
+
+   Pair right = convert(root->right);
+
+   if(right.head == NULL){
+        p.tail = root;
+   }else{
+       root->right = right.head;
+       p.tail = right.tail;
+   }
+
+    return p;
 }
 
 int main(){
@@ -47,6 +73,7 @@ int main(){
     root->right->right = new TreeNode(17);
    
     Pair p = convert(root);
+
     printLinkedList(p.head);
 
     return 0;
