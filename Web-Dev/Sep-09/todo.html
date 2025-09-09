@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>todo app</title>
+</head>
+<body>
+        <div class="todo-container">
+            <h1>Todos list</h1>
+
+            <div>
+                <ol class="todolist">
+                    <li>Go to school</li>
+                    
+                </ol>
+            </div>
+
+            <button class="btn">Add todo</button>
+        </div>
+
+        <script>
+            function addNewTodo(){
+                let newLi = document.createElement("li");
+
+               let newTodo = prompt('Enter new todo');
+                newLi.innerText = newTodo;
+
+                let todoList = document.querySelector(".todolist");
+                todoList.append(newTodo);
+
+            }
+
+            let btn = document.querySelector(".btn")
+            btn.addEventListener("click", addNewTodo);
+
+        </script>
+</body>
+</html>
