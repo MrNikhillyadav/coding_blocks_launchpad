@@ -4,8 +4,7 @@ using namespace std;
 
 
 int main(){
-
-    priority_queue<int> m; // max_heap by default;
+    priority_queue< int, vector<int>, greater<int> > m; // minHeap
 
     m.push(9);
     m.push(7);
@@ -28,5 +27,5 @@ int main(){
 
     cout<< "size: " << m.size() << endl;
 
-return 0;
+    return 0;
 }
