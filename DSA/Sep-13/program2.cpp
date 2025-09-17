@@ -109,9 +109,9 @@ class HashMap{
     void erase(int K){
         int hashIdx = hashFn(K);
 
-        //delete the node with the given key
         node* temp = T[hashIdx];
         node* prev = NULL;
+        
         while(temp != NULL){
             if(temp ->K == K){
                 prev->next = temp->next;

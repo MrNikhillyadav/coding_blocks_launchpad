@@ -4,17 +4,11 @@
 using namespace std;
 
 int main() {
-    // build an unordered_map using default constructor
     unordered_map<string, string> capitalMap;
-
-    // inserting into a map
-
-    // using unordered_map::insert
 
     capitalMap.insert(make_pair("India","New Delhi"));
     capitalMap.insert({"France","Paris"});
 
-    // print map size using unordered_map::size
     cout << "Map size: " << capitalMap.size() << endl;
     
     //using []
@@ -24,14 +18,12 @@ int main() {
 
     // iterating over the map
 
-    // using an iterator
     for (auto it = capitalMap.begin(), end = capitalMap.end(); it != end; it++) {
         pair<string, string> p = *it;
         cout << "(" << p.first << ", " << p.second << ")" << endl;
     }
     cout << endl;
 
-    // using for-each loop
     for (pair<string, string> p : capitalMap) {
         cout << "(" << p.first << ", " << p.second << ")" << endl;
     }
@@ -47,8 +39,8 @@ int main() {
     }
     cout << endl;
 
-    // updating a value corresponding to a key in a map using []
-    capitalMap["India"] = "NewDelhi";
+    capitalMap["India"] = "Delhi";
+    
     for (int i = 0; i < capitalMap.bucket_count(); i++) {
         cout << i << ": ";
         for (auto it = capitalMap.begin(i), end = capitalMap.end(i); it != end; it++) {
@@ -60,27 +52,25 @@ int main() {
 
     // lookups
 
-    // using unordered_map::find
     string key = "France";
+
     if (capitalMap.find(key) != capitalMap.end()) {
         cout << "(" << key << ", " << capitalMap[key] << ")" << endl;
     } else {
         cout << key << " is not found!" << endl;
     }
 
-    // using unordered_map::count
     if (capitalMap.count(key)) {
         cout << "(" << key << ", " << capitalMap[key] << ")" << endl;
     } else {
         cout << key << " is not found!" << endl;
     }
 
-    // deletion using unordered_map::erase
 
-    // by key
 
     capitalMap.erase("France");
     cout << "size : " << capitalMap.size() << endl;
+    
     if (capitalMap.find(key) != capitalMap.end()) {
         cout << "(" << key << ", " << capitalMap[key] << ")" << endl;
     } else {
@@ -88,7 +78,6 @@ int main() {
     }
 
 
-    // clear using unordered_map::clear
 
     capitalMap.clear();
     cout << "size : " << capitalMap.size() << endl;
