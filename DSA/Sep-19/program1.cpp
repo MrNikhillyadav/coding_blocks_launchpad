@@ -4,7 +4,6 @@ using namespace std;
 
 int cnt1 = 0;
 int cnt2 = 0;
-int cnt3 = 0;
 
 //using recursion only
 int fibo(int n ){
@@ -17,7 +16,6 @@ int fibo(int n ){
     // recursive case
    return fibo(n-1) + fibo(n -2);
 }
-
 
 int fiboTopDown(int n, vector<int>& dp){
     cnt2++;
@@ -38,7 +36,6 @@ int fiboTopDown(int n, vector<int>& dp){
 // iterative approach
 int fiboBottomUp(int n){
     
-    cnt3++;
     // dp array of size n + 1
     vector<int> dp(n+1);
 
@@ -54,9 +51,9 @@ int fiboBottomUp(int n){
 }
 
 
-// int fiboBottomUpSpaceOptimised(int n){
+int fiboBottomUpSpaceOptimised(int n){
 
-// }
+}
 
 
 int main(){
@@ -71,9 +68,8 @@ int main(){
     cout << "cnt2 steps: " << cnt2 << endl;
     
     cout << fiboBottomUp(n) << endl;
-    cout << "cnt3 steps: " << cnt3 << endl;
 
-    // cout << fiboBottomUpSpaceOptimised(n) << endl;
+    cout << fiboBottomUpSpaceOptimised(n) << endl;
 
 
     return 0;
