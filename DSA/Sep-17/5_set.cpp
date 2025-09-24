@@ -18,12 +18,10 @@ int main() {
 
     cout << "size : " << s.size() << endl; // 5
 
-    // delete an element
     s.erase(5);
 
     cout << "size : " << s.size() << endl; // 4
 
-    // iterating over the set
     for (auto it = s.begin(), end = s.end(); it != end; it++) {
         //dereferencing iterator
         cout << *it << " ";

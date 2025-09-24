@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose');
 const cors = require('cors');
+const Jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt")
 const { TodoModel, UserModel } = require('./model');
 
 const app = express()
@@ -13,17 +15,41 @@ mongoose.connect("mongodb+srv://nikyadav20032003:e0u1Gam4rdA2ap6f@cluster0.orazj
   console.log("db connected")
 })
 
-//# TODO: Create a signup and signin route
 
-app.post('/signup',(req,res)=> {
- // capture this data
+async function auth(req, res, next) {
+ const token = req.headers.token;
+ try {
+   const decodedPayload = await Jwt.verify(token,"JWT_SECRET");
+   console.log('decodedPayload: ', decodedPayload);
+ 
+    if(!decodedPayload){
+      res.json( {
+        message  : "invalid token"
+      })
+      return;
+    }
+    
+    // attaching userId in request object
+    req.userId = decodedPayload._id;
+      next();   
+ }
+ catch(e){
+  res.json({
+    error : "error"
+  })}
+}
+
+
+app.post('/signup', async(req,res)=> {
   const email =  req.body.email;
   const password = req.body.password;
 
- // store it to database
-  UserModel.create({
+  const hashedPassword = await bcrypt.hash(password,5);
+  console.log('hashedPassword: ', hashedPassword);
+  
+  await UserModel.create({
     email : email,
-    password : password
+    password : hashedPassword
   })
 
   res.json({
@@ -33,31 +59,45 @@ app.post('/signup',(req,res)=> {
 
 
 app.post('/signin',async(req,res)=> {
-  // capture the data
-  const email = req.body.email;
-  const password = req.body.password;
+  const email = req.body.email; //john@gmail.com
+  const password = req.body.password; // 12345
 
-  // verify
   try {
+    // Step 1 : checked the user in the DB
     const user = await UserModel.findOne({
       email : email,
-      password : password
     })
 
     if(!user){
         res.json({
-          message : "wrong credentials"
+          message : "user not signed up"
         })
     }
 
+    // step 2 : check password using bcrypt.compare()
+    const decodedPassword = await bcrypt.compare(password,user.password);
+
+    if(!decodedPassword){
+      res.json({
+        message : "wrong password"
+      })
+    }
+
+    //step3 : sign the token using jwt.sign() method
+    const token = await Jwt.sign({
+      id : user._id
+    },"JWT_SECRET")
+
+
     res.json({
-        message : "signed in successful"
+        message : "signed in successful",
+        token : token
       })
 
   }
   catch(e){
     res.json({
-      error : "error"
+      error : "wrong credentials"
     })
   }
 
@@ -68,7 +108,13 @@ app.post('/signin',async(req,res)=> {
 })
 
 
+// using middleware to protect todo routes
+app.use(auth)
+
+console.log("before todo route")
+
 app.post('/todo', async(req, res) => {
+  console.log("reached todo route")
 
   const title = req.body.title;
   const done = req.body.done;
@@ -108,8 +154,6 @@ app.delete('/todo/:id', async(req, res) => {
   })
 
 })
-
-
 
 
 app.listen(3000, () => {

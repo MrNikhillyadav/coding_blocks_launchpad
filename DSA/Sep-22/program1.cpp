@@ -41,11 +41,11 @@ int main(){
     
     cout << minSteps(n) << endl;
 
-    // vector<int> dp(n+1,-1)  ; // 0th index is not used;
+    vector<int> dp(n+1,-1)  ; // 0th index is not used;
 
-    // cout << minStepsTopDown(n,dp) << endl;
+    cout << minStepsTopDown(n,dp) << endl;
 
-    // cout << minStepsBottomUp(n) << endl;
+    cout << minStepsBottomUp(n) << endl;
 
 
     return 0;
