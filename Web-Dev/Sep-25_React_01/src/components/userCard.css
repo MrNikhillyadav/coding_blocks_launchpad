@@ -1,0 +1,10 @@
+.card{
+    background-color: rgba(120, 170, 252, 0.896);
+    padding : 10px 20px;
+    text-align: center;
+    color: white;
+    margin: 10px;
+    width: 40vw;
+    height: 14vw;
+    border-radius: 10px;
+}
