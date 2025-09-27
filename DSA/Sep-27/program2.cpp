@@ -1,99 +1,103 @@
 /*
-    Minimum Sum path
+    Knapsack problem
 */
 
 #include<iostream>
 #include<vector>
 using namespace std;
 
-int minSumPath(vector<vector<int>> grid, int m, int n, int i, int j) {
-    // bae case
-    if( i == m-1 and j == n-1){
-        return grid[i][j];
+int helper(vector<int> weights, vector<int> profits, int N, int i, int w) {
+    if (i == N) {
+        return 0;
+    }
+
+    if (w == 0) {                   //  optional
+        return 0;
     }
 
     // recursive case
-    if( i ==m-1){
-        return grid[i][j] + minSumPath(grid, m,n, i, j+1);
+    if (weights[i] > w) {
+         return helper(weights, profits, N, i + 1, w);
     }
 
-    if( j ==n-1){
-        return grid[i][j] + minSumPath(grid, m,n, i+1, j);
-    }
-
-    int X = minSumPath( grid, m, n, i, j+1);
-    int Y  = minSumPath( grid, m ,n, i+1, j);
-
-    return grid[i][j] + min(X,Y);
+    return max(
+        profits[i] + helper(weights, profits, N, i + 1, w - weights[i]),
+        helper(weights, profits, N, i + 1, w)
+    );
 }
 
-
-int minSumPathTopDown(vector<vector<int>> grid, int m, int n, int i, int j,vector<vector<int>>&dp) {
+// time : O(NW)
+// space : O(NW + N ) ~ O(NW)
+int helperTopDown(vector<int> weights, vector<int> profits, int N, int i, int w, vector<vector<int>>& dp) {
     // lookup case
-    if(dp[i][j] != -1){
-        return dp[i][j];
+    if(dp[i][w] != -1){
+         return dp[i][w];
+    }
+    
+    //base case
+    if (i == N) {
+        return dp[i][w]= 0;
     }
 
-    // base case 
-    if(i == m-1 and j == n-1){
-        return dp[i][j] = grid[i][j];
+    if (w == 0) {                   
+        return dp[i][w]= 0;
     }
 
     // recursive case
-    if( i == m-1){
-        return dp[i][j] = grid[i][j] + minSumPathTopDown(grid, m,n,i,j+1, dp);
+    if (weights[i] > w) {
+         return dp[i][w] = helperTopDown(weights, profits, N, i + 1, w,dp);
     }
 
-    if( j == n-1){
-        return dp[i][j] = grid[i][j] + minSumPathTopDown(grid, m,n,i+1,j, dp);
-    }
-
-    int X = minSumPathTopDown(grid, m,n, i ,j+1, dp);
-    int Y = minSumPathTopDown(grid, m,n, i+1 ,j, dp);
-
-    return dp[i][j] = grid[i][j] + min(X,Y);
+    return dp[i][w] = max(
+        profits[i] + helperTopDown(weights, profits, N, i + 1, w - weights[i],dp),
+        helperTopDown(weights, profits, N, i + 1, w, dp)
+    );
 }
 
+int helperBottomUp(vector<int> weights, vector<int> profits, int N, int W) {
+    vector<vector<int>> dp(N + 1, vector<int>(W + 1));
 
-int minSumBottomUp(vector<vector<int>>grid,int m,int n){
-    vector<vector<int>> dp(m,vector<int>(n));
+    // Initialize the base cases
+    for (int i = 0; i <= N; i++) {
+        dp[i][0] = 0;
+    }
+    for (int w = 0; w <= W; w++) {
+        dp[N][w] = 0;
+    }
 
-    for( int i = m-1; i >= 0; i--){
-        for( int j = n-1; j>=0; j--){
-            // dp[i][j] = f(i,j)
-        if( i == m-1 and j == n-1){
-            dp[i][j] = grid[i][j];
-        }else if( i == m-1){
-            dp[i][j] = grid[i][j] + dp[i][j+1];
-        }else if( j == n-1){
-            dp[i][j] = grid[i][j] + dp[i+1][j];
-        }else {
-            dp[i][j] = grid[i][j] + min(dp[i][j+1], dp[i+1][j]);
-        }
+    // Filling the dp table 
+    for (int i = N - 1; i >= 0; i--) {
+        for (int w = 1; w <= W; w++) {
+            if (weights[i] > w) {
+                dp[i][w] = dp[i + 1][w];
+            } else {
+                // decide for the ith object:
+        
+                dp[i][w] = max(
+                    profits[i] + dp[i + 1][w - weights[i]],
+                    dp[i + 1][w]
+                );
+            }
         }
     }
 
-    return dp[0][0]; // at (0,0) index, we are storing f(0,0)
+    return dp[0][W]; 
 }
 
 
 int main() {
-    vector<vector<int>> grid = {
-        {1, 3, 1},
-        {1, 5, 1},
-        {4, 2, 1}
-    };
+    int N = 5;
+    int W = 4;
 
-    int m = grid.size();
-    int n = grid[0].size();
+    vector<int> weights = {1, 2, 3, 2, 2};
+    vector<int> profits = {8, 4, 1, 5, 3};
 
-    cout << minSumPath(grid, m, n, 0, 0) << endl;
+    cout << helper(weights, profits, N, 0, W) << endl;
 
-    vector<vector<int>> dp(m, vector<int>(n,-1));
+    vector<vector<int>>dp(N+1, vector<int>(W+1,-1));
+    cout << helperTopDown(weights, profits, N, 0, W, dp) << endl;
 
-    cout << minSumPathTopDown(grid, m,n,0,0, dp) << endl;
-
-    cout << minSumBottomUp(grid,m,n) << endl;
+    cout << helperBottomUp(weights, profits, N, W) << endl;
 
     return 0;
 }
