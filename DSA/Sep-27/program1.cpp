@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include<vector>
-#include<limits>
+#include<climits>
 
 using namespace std;
 
@@ -32,10 +32,58 @@ int maxProfit(int n, vector<int> p) {
     }
 
     // recursive case
-    // compute the max. profit given a rod of length n
-
     // decide the next cut
+    int  maxSoFar = INT_MIN;
 
+    for( int j = 1; j <= n; j++){
+        // make a cut of size j
+        maxSoFar = max(maxSoFar, p[j-1] + maxProfit(n-j,p));
+    }
+
+    return maxSoFar;
+
+}
+
+int maxProfitTopDown( int n, vector<int> p, vector<int>& dp){
+    //lookup
+    if(dp[n] !=  -1){
+        return dp[n];
+    }
+
+    //base capse
+    if(n ==0){
+        return dp[n] = 0;
+    }
+
+    // recursive case
+    // decide the next cut
+    int  maxSoFar = INT_MIN;
+
+    for( int j = 1; j <= n; j++){
+        // make a cut of size j
+        maxSoFar = max(maxSoFar, p[j-1] + maxProfitTopDown(n-j,p, dp));
+    }
+
+    return dp[n] = maxSoFar;
+
+}
+
+// time : 0(N^2)
+// space : 0(n) duce to the dp[];
+
+int maxProfitBottomUp(int n, vector<int>p){
+    vector<int> dp(n+1);
+
+    dp[0] = 0; // at 0th INDEX, we store f(0);
+
+    for( int i = 1; i<= n ; i++){
+        int maxSoFar = INT_MIN;
+    for(int j =1; j <= i; j++)
+        // make a cut of size j
+        maxSoFar = max(maxSoFar, p[j-1]+ dp[i-j]);
+    }
+
+    return dp[n]; // at nth index, storing f(n)
 }
 
 int main() {
@@ -43,6 +91,12 @@ int main() {
     int n = p.size();
 
     cout << maxProfit(n, p) << endl;
+
+    vector<int> dp(n+1, -1);
+
+    cout << maxProfitTopDown(n,p,dp) << endl;
+
+    cout << maxProfitBottomUp(n, p) << endl;
 
     return 0;
 }
