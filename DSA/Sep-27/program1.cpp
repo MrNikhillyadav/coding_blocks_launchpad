@@ -1,5 +1,5 @@
 /*
-    Minimum Sum path
+    Minimum Sum path Problem
 */
 
 #include<iostream>
@@ -27,7 +27,6 @@ int minSumPath(vector<vector<int>> grid, int m, int n, int i, int j) {
     return grid[i][j] + min(X,Y);
 }
 
-
 int minSumPathTopDown(vector<vector<int>> grid, int m, int n, int i, int j,vector<vector<int>>&dp) {
     // lookup case
     if(dp[i][j] != -1){
@@ -53,7 +52,6 @@ int minSumPathTopDown(vector<vector<int>> grid, int m, int n, int i, int j,vecto
 
     return dp[i][j] = grid[i][j] + min(X,Y);
 }
-
 
 int minSumBottomUp(vector<vector<int>>grid,int m,int n){
     vector<vector<int>> dp(m,vector<int>(n));
