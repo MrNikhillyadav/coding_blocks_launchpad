@@ -1,0 +1,10 @@
+.todo-container{
+    background-color: rgb(135, 226, 242);
+}
+
+.todo {
+    background-color: rgb(154, 245, 215);
+    padding : 10px;
+    margin : 10px;
+    border-radius: 10px;
+}
