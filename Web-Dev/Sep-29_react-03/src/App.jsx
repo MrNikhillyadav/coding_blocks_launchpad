@@ -12,7 +12,7 @@ function App() {
       {/* <UseStateHook/> */}
       {/* <UseRefHook/> */}
       {/* <UseEffectHook/> */}
-      <FetchData/>
+      {/* <FetchData/> */}
     </div>
   )
 }
