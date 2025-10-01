@@ -126,7 +126,26 @@ app.post('/todo', async(req, res) => {
 
   
   res.json({
-    message : "added todo"
+    response : "added todo"
+  })
+
+})
+
+app.put('/todo/:id', async(req, res) => {
+  const todoId = req.params.id;
+  const title = req.body.title;
+  const done = req.body.done;
+  
+    await TodoModel.findByIdAndUpdate(
+      todoId,
+    {
+    title : title,
+    done : done
+   })
+
+  
+  res.json({
+    response : "updated todo"
   })
 
 })
@@ -136,7 +155,7 @@ app.get('/todo', async(req, res) => {
     const todos = await TodoModel.find()
 
   res.json({
-    respnse : todos
+    response : todos
   })
 
 })
@@ -150,7 +169,7 @@ app.delete('/todo/:id', async(req, res) => {
     })
 
   res.json({
-    respnse : "todo deleted!"
+    response : "todo deleted!"
   })
 
 })
