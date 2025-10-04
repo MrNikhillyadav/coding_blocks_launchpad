@@ -6,6 +6,7 @@ function App() {
   const [todos,setTodos] = useState([]);
   console.log('all todos: ', todos);
   const inputRef = useRef("");
+  const [refresh,setRefresh]  = useState(false)
 
   // fetch todo on mount
   useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
     }
 
     getTodo();
-  },[])
+  },[refresh])
 
 // post todo
   async function addTodo(){
@@ -50,6 +51,7 @@ function App() {
 
       console.log(await res.json())
       inputRef.current.value = "";
+      setRefresh(!refresh)
     }
     catch(e){
       console.error("error", e)
@@ -68,6 +70,7 @@ function App() {
       });
 
       console.log(await res.json())
+      setRefresh(!refresh)
     }
     catch(e){
       console.error("error", e)
@@ -90,6 +93,7 @@ function App() {
       });
 
       console.log(await res.json())
+      setRefresh(!refresh)
     }
     catch(e){
       console.error("error", e)
@@ -97,13 +101,14 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='todo-container'>
       <h2> Todo app</h2>
-      <div>
 
-        <input ref={inputRef} type="text" placeholder='Go to the gym' />
+      <div className='input'>
+        <input className='input' ref={inputRef} type="text" placeholder='Go to the gym' />
         <button onClick={addTodo}>Add todo</button>
       </div>
+
       <div>
         <ul>
           {todos.map((todo) => (
