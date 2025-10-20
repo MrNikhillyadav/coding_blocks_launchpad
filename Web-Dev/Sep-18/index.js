@@ -22,7 +22,6 @@ app.post('/todo', (req, res) => {
 
 })
 
-//localhost:3000/todo
 app.get('/todo', (req, res) => {
     // logic for fetching todo....
 
