@@ -5,7 +5,7 @@ const app = express()
 app.use(cors());
 
 //localhost:3000/
-app.get('/', (req, res) => {
+app.get('/health', (req, res) => {
 
   res.json({
     message :"server is healthy"
@@ -27,6 +27,24 @@ app.get('/todo', (req, res) => {
 
   res.json({
     message :"todo is recieved"
+  })
+
+})
+
+app.delete('/todo/:id', (req, res) => {
+    // logic for fetching todo....
+
+  res.json({
+    message :"todo is deleted"
+  })
+
+})
+
+app.put('/todo/:id', (req, res) => {
+    // logic for fetching todo....
+
+  res.json({
+    message :"todo is updated"
   })
 
 })
