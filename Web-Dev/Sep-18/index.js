@@ -31,6 +31,15 @@ app.get('/todo', (req, res) => {
 
 })
 
+app.get('/all-todo', (req, res) => {
+    // logic for fetching todo....
+
+  res.json({
+    message :"todos are recieved"
+  })
+
+})
+
 app.delete('/todo/:id', (req, res) => {
     // logic for fetching todo....
 
